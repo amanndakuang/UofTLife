@@ -45,5 +45,4 @@ public class TransitionPageBuilder {
         context.startActivity(toPage);
     }
 
-
 }

@@ -37,7 +37,7 @@ public class GameCardActivity extends GameBaseActivity {
         //Initialize the cardArray and randomly shuffle it
         Card[] cards = {card1, card2, card3, card4, card5, card6};
         ArrayList<Card> cardArray = new ArrayList<>();
-        for (Card card: cards){
+        for (Card card : cards) {
             cardArray.add(card);
             cardArray.add(card);
         }
@@ -59,7 +59,7 @@ public class GameCardActivity extends GameBaseActivity {
         listOfImageView[11] = findViewById(R.id.pic12);
 
         //Initialize the game
-        cardGame = new GameCard(cardArray, listOfImageView,backImage);
+        cardGame = new GameCard(cardArray, listOfImageView, backImage);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GameCardActivity extends GameBaseActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         setViews();
         score.setText("Score: 0");
@@ -83,22 +83,18 @@ public class GameCardActivity extends GameBaseActivity {
     /**
      * set up all the Image Views
      */
-    private void setViews(){
-        for (ImageView imageView: cardGame.getListOfImageView()){
-            imageView.setOnClickListener((view)->{
+    private void setViews() {
+        for (ImageView imageView : cardGame.getListOfImageView()) {
+            imageView.setOnClickListener((view) -> {
                 int cardNumber = (int) imageView.getTag();
                 cardGame.flipCard(imageView, cardNumber);
-                if (cardGame.getNumCardOver() == 2){
+                if (cardGame.getNumCardOver() == 2) {
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void run() {
-                            cardGame.checkResult();
-                            score.setText("Score: " + cardGame.getScore());
-                            if (cardGame.checkEnd()){
-                                finish();
-                            }
+                    handler.postDelayed(() -> {
+                        cardGame.checkResult();
+                        score.setText("Score: " + cardGame.getScore());
+                        if (cardGame.checkEnd()) {
+                            endGame();
                         }
                     }, 1000);
                 }
@@ -106,16 +102,18 @@ public class GameCardActivity extends GameBaseActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void endGame() {
+        finish();
         new TransitionPageBuilder(this).setTitle("Congratulations!!")
                 .setDescription("You just finished your study!!")
-                .setShowingTime(3)
-                .addValueChange("practice", (int) Math.floor(cardGame.getScore() / 20))
+                .setShowingTime(4)
+                .addValueChange("practice", (int) Math.floor(cardGame.getScore() / 10))
                 .addValueChange("understanding", (int) Math.floor(cardGame.getScore() / 20))
                 .addValueChange("time", -12)
+                .addValueChange("mood", -25)
                 .addValueChange("vitality", -cardGame.getVitalityConsume())
                 .start();
     }
+
+
 }

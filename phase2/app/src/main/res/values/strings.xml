@@ -25,7 +25,8 @@
     <string name="ready">Go</string>
     <string name="clear">Clear all files</string>
     <string name="clear_success">Successfully cleared your game files.</string>
-    <!--todo whole instruction-->
+    <string name="skip">skip</string>
+
     <string name="whole_instruction">
         Welcome to your life at University of Toronto!
 You can adjust the game difficulty and allocate your talent points to customize your game experience, and your academic performance will be assessed at the end of the semester.
@@ -37,7 +38,7 @@ Your GPA is in your hands now. Good luck!
     <string name="build_character">Build New Character</string>
 
     <string name="difficulty">Game Difficulty</string>
-    <string name="difficulty_instruction">Difficulty of game influences the number of allocatable fated resources point. \n\n
+    <string name="difficulty_instruction">Difficulty of game influences the number of allocatable talent point. \n\n
         [%1$s] -> %2$d\n
         [%3$s] -> %4$d\n
         [%5$s] -> %6$d</string>
@@ -85,19 +86,22 @@ Your GPA is in your hands now. Good luck!
     <string name="time_display">Time Blocks Left for this semester:</string>
 
     <!--    状态-->
-    <string name="status_starving">%1$s is starving and need to eat!</string>
+    <string name="status_starving">%1$s is starving!</string>
     <string name="status_exhausted">%1$s is too exhausted to do anything.</string>
     <string name="status_sick">%1$s is sick. Feels so bad.</string>
     <string name="status_bad_mood">%1$s is in bad temper.</string>
     <string name="status_good_mood">%1$s feels so happy these days.</string>
     <string name="status_study_alert">%1$s needs to study…</string>
-    <string name="status_has_due">%1$s has a deadline upcoming. Click to start.</string>
+    <string name="status_has_due">%1$s has a upcoming deadline. Click to start.</string>
     <string name="status_default">All is well.   \n—%1$s</string>
 
 
     <!--    一些活动和事件-->
     <string name="random_event">Random Events</string>
-    <string name="die_starving">%1$s died because of starving for too long time…</string>
+    <string name="die">%1$s died</string>
+    <string name="die_health">because of severe health condition,
+        that may be caused by starving for too long time… Please try again.</string>
+    <string name="die_mood">You suicided because of feeling so depressed… Please try again.</string>
 
 
     <string name="assignment">Assignment %1$s</string>
@@ -108,6 +112,8 @@ Your GPA is in your hands now. Good luck!
     <string name="date">It is to take on %1$s.</string>
     <string name="do_ass">Check and do it now</string>
 
+    <string name="note_cor">You get your notes with correctness\n%1$.2f %%.</string>
+
     <!--    把自己事件要显示的用语写在下方，不要写在 activity 内部，到时候方便统一翻译-->
     <string name="scene_home">Home</string>
     <string name="scene_mall">Mall</string>
@@ -115,18 +121,18 @@ Your GPA is in your hands now. Good luck!
 
     <string name="walk_spend_time">Walk to %1$s will take %2$d time blocks.</string>
 
-    <string name="event">%1$s want to</string>
+    <string name="event">%1$s wants to</string>
     <string name="lecture">Take courses</string>
     <string name="review">Review</string>
     <string name="sleep">Sleep</string>
-    <string name="shopping">Shopping</string>
+    <string name="shopping">Go shopping</string>
     <string name="work">Do part time job</string>
 
     <string name="activity_spend_time">Doing this will take %1$d time blocks.</string>
 
     <!--    transition pages texts-->
-    <string name="semester">Semester start…</string>
-    <string name="tuition">The new semester is coming. As we all know, tuition fee for international students is really high… \n Anyway, good luck and survive!</string>
+    <string name="semester">Semester starts…</string>
+    <string name="tuition">The new semester is coming. Time to pay tuition… \n Anyway, good luck and survive!</string>
 
     <!-- GameSleep  -->
     <string name="todo" />
@@ -141,7 +147,7 @@ Your GPA is in your hands now. Good luck!
     <string name="game_sleep_pass">Congratulations! </string>
     <string name="game_sleep_pass_description">You successfully got up</string>
     <string name="game_sleep_fail">Uh oh</string>
-    <string name="game_sleep_fail_description">Your failed to get up</string>
+    <string name="game_sleep_fail_description">Your overslept… extra time has been consumed. </string>
 
 
     <string name="logout">logout</string>
@@ -159,7 +165,7 @@ Your GPA is in your hands now. Good luck!
     <string name="sign_up_success">sign up successfully</string>
 
     <!-- GameCard -->
-    <string name="sccore">Score:</string>
+    <string name="score">Score:</string>
     <string name="card">Try to find all matched cards</string>
     <string name="understanding_value">Your understanding value has increased by</string>
     <string name="practice_value">Your practice value has increased by</string>

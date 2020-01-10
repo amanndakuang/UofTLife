@@ -30,6 +30,7 @@ public abstract class TransitionPageActivity extends GameBaseActivity {
         ((TextView) findViewById(R.id.description_text)).setText(setDescriptionText());
     }
 
+
     @Override
     protected int setContentLayout() {
         return R.layout.activity_transition_page;
@@ -37,6 +38,11 @@ public abstract class TransitionPageActivity extends GameBaseActivity {
 
     @Override
     protected boolean setSavable() {
+        return true;
+    }
+
+    @Override
+    protected boolean setSkipable() {
         return true;
     }
 
@@ -86,4 +92,5 @@ public abstract class TransitionPageActivity extends GameBaseActivity {
         }
         ((ViewGroup) findViewById(R.id.page_base)).addView(line);
     }
+
 }

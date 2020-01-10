@@ -8,13 +8,13 @@
         android:id="@+id/attribute_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingEnd="15dp"
-        android:paddingStart="0dp"
-        android:textSize="14sp"
-        android:textColor="@color/attr_name"
-        android:gravity="bottom"
         android:maxLines="1"
-        />
+        android:paddingStart="0dp"
+        android:transformPivotX="0dp"
+        android:scaleX="0.9"
+        android:paddingEnd="5dp"
+        android:textColor="@color/attr_name"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/attribute_value"

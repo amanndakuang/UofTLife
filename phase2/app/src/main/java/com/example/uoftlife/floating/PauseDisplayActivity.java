@@ -60,23 +60,36 @@ public class PauseDisplayActivity extends FloatingActivity {
         timeBar.setProgress(DataFacade.getValue(TIME_KEY), true);
     }
 
+    private void setStatus(String statusText) {
+        DataFacade.setTempData("status", statusText);
+    }
+
     private void getStatusDisplay() {
-        String status = DataFacade.getTempData("status");
-        String display;
-        if (status != null) {
-            display = String.format(status, DataFacade.getTempData("name"));
-        } else {
-            display = String.format(getString(R.string.status_default), DataFacade.getTempData("name"));
-        }
         TextView statusText = findViewById(R.id.status);
-        statusText.setText(display);
-        if (DataFacade.getValue("due") > 0) {
+        String status = getString(R.string.status_default);
+        if (DataFacade.getValue("mood") <= 20) {
+            status = getString(R.string.status_bad_mood);
+        } else if (DataFacade.getValue("mood") >= 90) {
+            status = getString(R.string.status_good_mood);
+        }
+        if (DataFacade.getValue("vitality") <= 20) {
+            status = getString(R.string.status_exhausted);
+        }
+        if (DataFacade.getValue("repletion") <= 20) {
+            status = getString(R.string.status_starving);
+        }
+        if (DataFacade.getValue("health") <= 40) {
+            status = getString(R.string.status_sick);
+        }
+        if (DataFacade.getValue("due") != 0) {
+            status = getString(R.string.status_has_due);
             statusText.setOnClickListener((view) -> {
                 finish();
                 PauseDisplayActivity.this.startActivity(new Intent(PauseDisplayActivity.this, AssignmentPageActivity.class));
             });
         }
-
+        String display = String.format(status, DataFacade.getTempData("name"));
+        statusText.setText(display);
     }
 
     @Override
@@ -107,7 +120,6 @@ public class PauseDisplayActivity extends FloatingActivity {
                     text = getString(R.string.save_alert);
                     saveClick++;
                 } else {
-                    // todo may add some progress animation during IO
                     if (DataFacade.saveProgress()) {
                         text = getString(R.string.save_success);
                     } else {

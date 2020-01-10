@@ -9,74 +9,84 @@
     tools:context=".shoppingmall.ShoppingMallActivity">
 
 
+    <LinearLayout
+        android:id="@+id/lay2"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="280dp"
+        android:foregroundGravity="left|bottom"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/nextPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay3"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="160dp"
+        android:gravity="bottom|left"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/nextPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/bread"
-        android:layout_width="102dp"
-        android:layout_height="129dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="90dp"
+        android:layout_height="110dp"
         android:background="@drawable/bread"
+        android:visibility="gone"
         android:text="bread"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bubbleTea"
-        android:layout_width="92dp"
-        android:layout_height="125dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="90dp"
+        android:layout_height="110dp"
+        android:visibility="gone"
         android:background="@drawable/bubble_tea"
         android:text="bubbleTea"
-        app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/book"
-        android:layout_width="87dp"
-        android:layout_height="121dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="90dp"
+        android:layout_height="110dp"
         android:background="@drawable/book"
+        android:visibility="gone"
         android:text="book"
-        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/lipstick"
-        android:layout_width="83dp"
-        android:layout_height="107dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="116dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="90dp"
+        android:layout_height="110dp"
         android:background="@drawable/lipstick"
         android:text="lipstick"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/coffee"
         android:layout_width="90dp"
-        android:layout_height="123dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginRight="16dp"
+        android:layout_height="110dp"
+        android:visibility="gone"
         android:background="@drawable/coffee"
         android:text="coffee"
-        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -84,11 +94,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="644dp"
+        android:layout_marginTop="632dp"
         android:layout_marginRight="16dp"
-        android:text="Return Map"
+        android:text="go next store"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/back_to_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="632dp"
+        android:text="back to map"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/lay1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="400dp"
+        android:gravity="bottom|left"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/nextPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

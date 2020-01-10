@@ -16,7 +16,13 @@ public class SemesterStartPageActivity extends TransitionPageActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateValue("money", -GameConstants.TUITION);
+        DataFacade.addToValue("understanding", DataFacade.getValue("intellect") / 2);
         DataFacade.saveProgress();
+    }
+
+    @Override
+    protected boolean setSkipable() {
+        return false;
     }
 
     @Override

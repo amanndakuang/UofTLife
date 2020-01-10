@@ -2,28 +2,68 @@ package com.example.uoftlife.gamestudy;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.widget.Button;
-import android.widget.EditText;
+import android.text.Html;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.uoftlife.GameBaseActivity;
 import com.example.uoftlife.R;
 import com.example.uoftlife.util.TransitionPageBuilder;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameStudyActivity extends GameBaseActivity {
 
     private GameStudy gameStudy;
-    private long time;
+    private long timeLeft;
+    private int currentBoard = 1;
+
+    private CountDownTimer boardRefreshTimer;
+    private Timer charUpdateTimer;
+
+    private TextView timerDisplay;
+    private TextView boardText;
+    private TextView inputText;
+
 
     //    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // setup the textView of the riddle and the button
-
         gameStudy = new GameStudy();
-        time = gameStudy.getTime();
-        int lengthOfWord = gameStudy.getLengthOfWord();
+        timerDisplay = findViewById(R.id.time_left);
+        inputText = findViewById(R.id.note);
+        boardText = findViewById(R.id.blackboard_content);
+        setButtonsListener();
+        startNewBoard();
+    }
+
+    private class InputReader implements View.OnClickListener {
+        char input;
+
+        private InputReader(char input) {
+            this.input = input;
+        }
+
+        @Override
+        public void onClick(View v) {
+            String formatPrefix = "";
+            String formatSuffix = "";
+            if (!gameStudy.checkCorrectness(input)) {
+                formatPrefix = "<font color = '#AA0000'><big>";
+                formatSuffix = "</big></font>";
+            }
+            inputText.append(Html.fromHtml(formatPrefix + input + formatSuffix, Html.FROM_HTML_MODE_LEGACY));
+        }
+    }
+
+    private void setButtonsListener() {
+        findViewById(R.id.a).setOnClickListener(new InputReader('A'));
+        findViewById(R.id.b).setOnClickListener(new InputReader('B'));
+        findViewById(R.id.c).setOnClickListener(new InputReader('C'));
+        findViewById(R.id.d).setOnClickListener(new InputReader('D'));
+        findViewById(R.id.e).setOnClickListener(new InputReader('E'));
+        findViewById(R.id.f).setOnClickListener(new InputReader('F'));
     }
 
     @Override
@@ -36,70 +76,77 @@ public class GameStudyActivity extends GameBaseActivity {
         return false;
     }
 
-    //
     @Override
-    protected void onResume() {
-        super.onResume();
-        setScorePrompt();
-        setdoneBtn();
-        setWordPromp();
-        CountDownTimer totalTimer = new CountDownTimer(time, 1000) {
+    protected void onPause() {
+        super.onPause();
+        boardRefreshTimer.cancel();
+        charUpdateTimer.cancel();
+    }
+
+    private void startCharTimer() {
+        charUpdateTimer = new Timer();
+        charUpdateTimer.schedule(new TimerTask() {
             @Override
-            public void onTick(long l) {
-                setTimePromp((int) l / 1000);
+            public void run() {
+                runOnUiThread(() ->
+                        boardText.append(String.valueOf(gameStudy.getNextCharOnBoard())));
+            }
+        }, 0, gameStudy.getEachCharTime());
+    }
+
+    private void startBoardTimer() {
+        boardRefreshTimer = new CountDownTimer(timeLeft, 1000) {
+            @Override
+            public void onTick(long time) {
+                timeLeft = time;
+                updateTimerDisplay();
             }
 
             @Override
             public void onFinish() {
-                finish();
-                new TransitionPageBuilder(GameStudyActivity.this).setTitle("Congratulations!!")
-                        .setDescription("You just finished your course!!")
-                        .setShowingTime(3)
-                        .addValueChange("practice", (int) Math.floor(gameStudy.getScore() / 20))
-                        .addValueChange("understanding", (int) Math.floor(gameStudy.getScore() / 20))
-                        .addValueChange("time", -12)
-                        .addValueChange("vitality", -gameStudy.getVitalityConsume())
-                        .start();
+                if (currentBoard == gameStudy.getBoardNumber()) {
+                    gameEnd();
+                } else {
+                    currentBoard++;
+                    startNewBoard();
+                    startBoardTimer();
+                }
             }
         }.start();
     }
 
-    private void setWordPromp() {
-        TextView promp = findViewById(R.id.word);
-        promp.setText(gameStudy.randomGenerateWord());
+
+    private void gameEnd() {
+        finish();
+        gameStudy.initializeNewBoard();
+        new TransitionPageBuilder(GameStudyActivity.this).setTitle("Course is over")
+                .setDescription(String.format(getString(R.string.note_cor), gameStudy.getCorrectness()))
+                .setShowingTime(8)
+                .addValueChange("practice", gameStudy.getStudyOutcome())
+                .addValueChange("understanding", ((int) (gameStudy.getStudyOutcome() * 0.4)))
+                .addValueChange("time", -12)
+                .addValueChange("mood", -gameStudy.getMoodConsume())
+                .addValueChange("vitality", -gameStudy.getVitalityConsume())
+                .start();
     }
 
-    private void setTimePromp(int timeleft) {
-        TextView prompt = findViewById(R.id.totalTime);
-        prompt.setText("The time left is " + (int) timeleft);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startBoardTimer();
+        startCharTimer();
+    }
+
+    private void startNewBoard() {
+        gameStudy.initializeNewBoard();
+        inputText.setText("");
+        boardText.setText("");
+        timeLeft = gameStudy.getEachBoardTime();
+    }
+
+    private void updateTimerDisplay() {
+        timerDisplay.setText(String.valueOf(timeLeft / 1000));
     }
 
 
-    /**
-     * set the textview of the score.
-     */
-    void setScorePrompt() {
-        TextView the_score = findViewById(R.id.the_score);
-        the_score.setText("Your score is " + gameStudy.getScore());
-    }
-//
-
-    /**
-     * set up the guessing button
-     */
-    void setdoneBtn() {
-        Button doneBtn = findViewById(R.id.doneBtn);
-
-        doneBtn.setText("Confirm!");
-        doneBtn.setOnClickListener(v -> {
-            EditText playerInput = findViewById(R.id.playerInput);
-            String answer = playerInput.getText().toString();
-            gameStudy.updateScore(answer);
-            setWordPromp();
-            setScorePrompt();
-        });
-
-    }
-
-//
 }

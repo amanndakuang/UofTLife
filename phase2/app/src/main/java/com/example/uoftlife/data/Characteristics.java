@@ -6,7 +6,7 @@ import java.util.List;
 public enum Characteristics {
     NONE(0, "NONE", "No characteristics"),
     PCS(1, "Procrastinator", "Has lower efficiency when due date is far from now."),
-    OPT(2, "Optimist", "Easy to keep high mood status."),
+    OPT(2, "Optimist", "Will not suicide when mood become to 0."),
     UST(3, "Unstable Mood", "Easy to lose temper."),
     INS(4, "Insomnia", "Have to sleep longer and is harder to get up."),
     MNY(5, "Money-grubber", "Get more money when working. Every time spend money, rapidly reduce mood."),

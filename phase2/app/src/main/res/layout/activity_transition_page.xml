@@ -44,4 +44,5 @@
         android:shadowRadius="1"
         android:textColor="@color/attr_name"
         android:textSize="18sp" />
+
 </LinearLayout>

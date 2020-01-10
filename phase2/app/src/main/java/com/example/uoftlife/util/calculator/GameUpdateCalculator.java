@@ -3,6 +3,7 @@ package com.example.uoftlife.util.calculator;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.example.uoftlife.MainActivity;
 import com.example.uoftlife.R;
 import com.example.uoftlife.data.DataFacade;
 import com.example.uoftlife.transpage.AssignmentPageActivity;
@@ -13,7 +14,7 @@ public class GameUpdateCalculator {
     private Activity context;
     private TransitionPageBuilder builder;
     private final int FRAME_MAX = 5;
-    private final double ASSIGNMENT_FREQUENCY = 0.01;
+    private final double ASSIGNMENT_FREQUENCY = 0.05;
     private final int MAX_DUETIME = 200;
     private final int MAX_TAKES = 100;
     private final int MAX_WORTH = 20;
@@ -22,21 +23,30 @@ public class GameUpdateCalculator {
 
     public GameUpdateCalculator(Activity context) {
         this.context = context;
-        builder = new TransitionPageBuilder(context).setShowingTime(9);
+        initializeBuilder();
     }
 
     public void update() {
         checkEnding();
         regularReduction();
-        statusCheck();
-        sendAssignment();
         checkDue();
+        sendAssignment();
+    }
+
+    private void initializeBuilder() {
+        builder = new TransitionPageBuilder(context).setShowingTime(8);
     }
 
     private void checkDue() {
         if (DataFacade.getValue("time") < DataFacade.getValue("due")) {
-            messenger.toastMessage("Unfortunately, assignment due date has past and you lost" + DataFacade.getValue("worth") + "marks...");
-            DataFacade.addToValue("mark", DataFacade.getValue("worth"));
+            messenger.clearAll();
+            builder.setTitle("Due past")
+                    .setDescription("Unfortunately, assignment due date has past and you lost "
+                            + DataFacade.getValue("worth") + " marks...")
+                    .addValueChange("mark", -DataFacade.getValue("worth"))
+                    .setShowingTime(6)
+                    .start();
+            initializeBuilder();
             DataFacade.setValue("due", 0);
         }
     }
@@ -46,6 +56,9 @@ public class GameUpdateCalculator {
         if (Math.random() < ASSIGNMENT_FREQUENCY) {
             if (DataFacade.getValue("due") == 0) {
                 int due = DataFacade.getValue("time") - ((int) (MAX_DUETIME * Math.random()));
+                if (due < 0) {
+                    return;
+                }
                 int worth = ((int) (MAX_WORTH * Math.random()));
                 int takesTime = ((int) (MAX_TAKES * Math.random()));
                 DataFacade.setValue("due", due);
@@ -53,7 +66,7 @@ public class GameUpdateCalculator {
                 DataFacade.setValue("takes", takesTime);
                 messenger.initialize();
                 messenger.setTitle(String.format(context.getString(R.string.assignment), "") + context.getString(R.string.assign))
-                        .setText(String.format(context.getString(R.string.worth), worth) +
+                        .setText(String.format(context.getString(R.string.worth), worth) + " " +
                                 String.format(context.getString(R.string.due), due))
                         .setIntent(new Intent(context, AssignmentPageActivity.class)).sendNewMessage();
             }
@@ -62,7 +75,7 @@ public class GameUpdateCalculator {
 
     private void regularReduction() {
         if (DataFacade.getValue("repletion") <= 20 || DataFacade.getValue("vitality") <= 20) {
-            DataFacade.addToValue("health", -1);
+            DataFacade.addToValue("health", -10);
         }
         DataFacade.addToValue("time", -1);
         DataFacade.addToValue("vitality", -2);
@@ -74,41 +87,16 @@ public class GameUpdateCalculator {
         }
     }
 
-
-    private void statusCheck() {
-        if (DataFacade.getValue("mood") <= 20) {
-            setStatus(context.getString(R.string.status_bad_mood));
-        } else if (DataFacade.getValue("mood") >= 90) {
-            setStatus(context.getString(R.string.status_good_mood));
-        }
-        if (DataFacade.getValue("vitality") <= 20) {
-            setStatus(context.getString(R.string.status_exhausted));
-        }
-        if (DataFacade.getValue("repletion") <= 20) {
-            setStatus(context.getString(R.string.status_starving));
-        }
-        if (DataFacade.getValue("health") <= 40) {
-            setStatus(context.getString(R.string.status_sick));
-        }
-        if(DataFacade.getValue("due")!=0){
-            setStatus(context.getString(R.string.status_has_due));
-        }
-    }
-
-    private void setStatus(String statusText) {
-        DataFacade.setTempData("status", statusText);
-    }
-
     private void checkEnding() {
         if (DataFacade.getValue("time") <= 0) {
             double mark = DataFacade.getValue("mark");
-            int diff = (100 - DataFacade.getValue("practice")) + (100 - DataFacade.getValue("understanding"));
+            int diff = ((100 - DataFacade.getValue("practice")) + (100 - DataFacade.getValue("understanding"))) / 2;
             if (DataFacade.getValue("vitality") < 50) {
                 diff += 20;
             }
             if (diff < 0) {
                 diff = 0;
-            }else if(diff>100){
+            } else if (diff > 100) {
                 diff = 100;
             }
             mark -= diff * 0.4;
@@ -122,16 +110,24 @@ public class GameUpdateCalculator {
             } else {
                 builder.setTitle("The semester is over...You failed.");
             }
+            backToMain();
             builder.start();
-            context.finish();
         }
         if (DataFacade.getValue("health") <= 0) {
-            builder.setTitle("You died").setDescription("Because starving or staying up too long... please try again.").start();
-            context.finish();
+            backToMain();
+            builder.setTitle(String.format(context.getString(R.string.die), DataFacade.getTempData("name")))
+                    .setDescription(context.getString(R.string.die_health)).start();
         }
         if (DataFacade.getValue("mood") <= 0) {
-            builder.setTitle("You suicide.").setDescription("Your feel so frustrated... please try again.").start();
-            context.finish();
+            if (DataFacade.getValue("ch1") != 2 && DataFacade.getValue("ch2") != 2) {
+                backToMain();
+                builder.setTitle(String.format(context.getString(R.string.die), DataFacade.getTempData("name")))
+                        .setDescription(context.getString(R.string.die_mood)).start();
+            }
         }
+    }
+
+    private void backToMain() {
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 }

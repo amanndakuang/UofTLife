@@ -329,9 +329,10 @@ public class CollectCoinActivity extends GameBaseActivity {
             finish();
             new TransitionPageBuilder(this).setTitle(getString(R.string.gamework))
                     .setDescription(getString(R.string.summary))
-                    .setShowingTime(3)
+                    .setShowingTime(6)
                     .addValueChange("time", -16)
                     .addValueChange("vitality", -30)
+                    .addValueChange("mood", -25)
                     .addValueChange("money", score * 10)
                     .start();
         }
@@ -350,8 +351,8 @@ public class CollectCoinActivity extends GameBaseActivity {
      */
     void initializeDifficulty() {
 
-        int char1 = DataFacade.getValue("char1");
-        int char2 = DataFacade.getValue("char2");
+        int char1 = DataFacade.getValue("ch1");
+        int char2 = DataFacade.getValue("ch2");
 
         // Game becomes hard if the character has the characteristic of insomnia.
         if (char1 == 5 || char2 == 5) {

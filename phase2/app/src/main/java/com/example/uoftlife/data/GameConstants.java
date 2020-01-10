@@ -54,19 +54,21 @@ public interface GameConstants {
             "split line",
             "understanding", "practice", "mark",
             "split line",
-            "repletion", "vitality"
+            "repletion", "vitality",
+            "split line",
+            "mood", "health"
     };
 
     /**
      * The attributes that changes during game
      */
     Map<String, Integer> GAME_STATUS_INIT = new HashMap<String, Integer>() {{
-        put("time", 5000);
+        put("time", 200);
         put("money", 52000);
         put("mark", 100);
 
-        put("understanding", 0);
-        put("practice", 0);
+        put("understanding", 20);
+        put("practice", 60);
         put("vitality", 100);
         put("repletion", 100);
         put("health", 100);

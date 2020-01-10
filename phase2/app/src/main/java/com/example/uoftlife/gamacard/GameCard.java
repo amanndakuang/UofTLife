@@ -33,8 +33,8 @@ class GameCard {
         this.backImage = backImage;
         score = 0;
         numberOfFlipTime = 0;
-        char1 = DataFacade.getValue("char1");
-        char2 = DataFacade.getValue("char2");
+        char1 = DataFacade.getValue("ch1");
+        char2 = DataFacade.getValue("ch2");
     }
 
     ImageView[] getListOfImageView() {

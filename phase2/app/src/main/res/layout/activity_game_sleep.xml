@@ -5,22 +5,12 @@
     android:id="@+id/relativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/gamesleep"
     tools:context=".gamesleep.GameSleepActivity">
 
 
-    <ImageView
-        android:id="@+id/gameSleepBG"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/gamesleep" />
-
-
     <TextView
-        android:id="@+id/levelOneCountDown"
+        android:id="@+id/count_down"
         android:layout_width="200dp"
         android:layout_height="160dp"
         android:gravity="bottom|center"
@@ -37,70 +27,70 @@
         android:id="@+id/character1"
         android:layout_width="343dp"
         android:layout_height="405dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/todo"
-        app:layout_constraintStart_toStartOf="@+id/gameSleepBG"
-        app:layout_constraintTop_toTopOf="@+id/gameSleepBG"
         app:srcCompat="@drawable/character_male_1" />
 
     <ImageView
         android:id="@+id/character2"
         android:layout_width="343dp"
         android:layout_height="405dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="84dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintStart_toStartOf="@+id/gameSleepBG"
-        app:layout_constraintTop_toTopOf="@+id/gameSleepBG"
-        app:srcCompat="@drawable/character_male_2" />
+        app:srcCompat="@drawable/character_male_2"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/character3"
         android:layout_width="343dp"
         android:layout_height="405dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="84dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintStart_toStartOf="@+id/gameSleepBG"
-        app:layout_constraintTop_toTopOf="@+id/gameSleepBG"
-        app:srcCompat="@drawable/character_male_3" />
+        app:srcCompat="@drawable/character_male_3"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/character4"
         android:layout_width="343dp"
         android:layout_height="405dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="84dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintStart_toStartOf="@+id/gameSleepBG"
-        app:layout_constraintTop_toTopOf="@+id/gameSleepBG"
-        app:srcCompat="@drawable/character_male_4" />
+        app:srcCompat="@drawable/character_male_4"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/blanket"
-        android:layout_width="350dp"
-        android:layout_height="512dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="108dp"
+        android:layout_width="372dp"
+        android:layout_height="686dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:contentDescription="@string/blanket"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/blanket" />
 
-
     <ImageView
         android:id="@+id/characterSit"
         android:layout_width="362dp"
         android:layout_height="426dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="108dp"
         android:contentDescription="@string/todo"
         android:rotation="-90"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/gameSleepBG"
-        app:layout_constraintTop_toTopOf="@+id/gameSleepBG"
-        app:srcCompat="@drawable/xiaomingsit" />
+        app:srcCompat="@drawable/xiaomingsit"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="114dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAlarm"

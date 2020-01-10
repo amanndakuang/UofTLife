@@ -4,87 +4,125 @@ import com.example.uoftlife.data.DataFacade;
 
 class GameStudy {
 
-    private String word;
-    private String alphabet;
+
+    private final String ALPHABET = "ABCDEF";
+    private final int TOTAL_TIME = 60000;
+
+    private int boardNumber;
     private int lengthOfWord;
-    private long time;
-    private int score;
+    private String word;
+
     private int char1, char2;
     private int vitalityConsume;
+    private int moodConsume;
+
+    private int error = 0;
+    private int boardPointer;
+    private int inputPointer;
+
 
     GameStudy() {
-        word = "";
-        alphabet = "abcdefghigklmnopqrstuvwxyz";
-        char1 = DataFacade.getValue("char1");
-        char2 = DataFacade.getValue("char2");
-        if (char1 == 6 || char2 == 6) {
-            lengthOfWord = 30;
-            time = 30000;
-            vitalityConsume = 10;
-        } else if (char1 == 7 || char2 == 7) {
-            lengthOfWord = 20;
-            time = 50000;
-            vitalityConsume = 5;
-        } else {
-            lengthOfWord = 25;
-            time = 40000;
-            vitalityConsume = 7;
-        }
-        score = 0;
+        char1 = DataFacade.getValue("ch1");
+        char2 = DataFacade.getValue("ch2");
+        initializeDifficulty();
+        initializeNewBoard();
     }
 
-    String randomGenerateWord() {
+    private void initializeDifficulty() {
+        if (char1 == 6 || char2 == 6) {
+            //study hater
+            lengthOfWord = 18;
+            boardNumber = 6;
+            moodConsume = 40;
+            vitalityConsume = 40;
+        } else if (char1 == 7 || char2 == 7) {
+            // study lover
+            lengthOfWord = 10;
+            boardNumber = 3;
+            moodConsume = -10;
+            vitalityConsume = 20;
+        } else {
+            //default
+            lengthOfWord = 12;
+            boardNumber = 4;
+            moodConsume = 20;
+            vitalityConsume = 30;
+        }
+    }
+
+    void initializeNewBoard() {
+        randomGenerateWord();
+        if (inputPointer < boardPointer) {
+            error += boardPointer - inputPointer;
+        }
+        boardPointer = 0;
+        inputPointer = 0;
+    }
+
+    double getCorrectness() {
+        double correctness = (1 - ((double) error / (boardNumber * lengthOfWord))) * 100;
+        if (correctness < 0) {
+            correctness = 0;
+        }
+        return correctness;
+    }
+
+    private void randomGenerateWord() {
         StringBuilder sb = new StringBuilder(lengthOfWord);
         for (int i = 0; i < lengthOfWord; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index = (int) (alphabet.length() * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(alphabet.charAt(index));
+            int index = (int) (ALPHABET.length() * Math.random());
+            sb.append(ALPHABET.charAt(index));
         }
         word = sb.toString();
-        return word;
     }
 
-    long getTime() {
-        return time;
+
+    int getEachBoardTime() {
+        return TOTAL_TIME / boardNumber;
     }
 
-    int getLengthOfWord() {
-        return lengthOfWord;
+    int getBoardNumber() {
+        return boardNumber;
     }
 
-    int getScore() {
-        return score;
+    int getEachCharTime() {
+        return getEachBoardTime() / lengthOfWord;
     }
 
-    void updateScore(String word) {
-        if (char2 == 6 || char1 == 6) {
-            score += Math.floor(20 * correctRate(word));
-        } else if (char1 == 7 || char2 == 7) {
-            score += Math.floor(30 * correctRate(word));
+    char getNextCharOnBoard() {
+        if (boardPointer != word.length()) {
+            return word.charAt(boardPointer++);
         } else {
-            score += Math.floor(25 * correctRate(word));
+            return '\0';
         }
-        System.out.println("score is: " + score);
     }
 
-    private double correctRate(String wordInput) {
-        int numberLetterCorrect = 0;
-        int length = Math.min(lengthOfWord, wordInput.length());
-        for (int i = 0; i < length; i++) {
-            if (wordInput.charAt(i) == word.charAt(i)) {
-                numberLetterCorrect++;
+    boolean checkCorrectness(char input) {
+        inputPointer++;
+        if (inputPointer <= boardPointer) {
+            if (word.charAt(inputPointer - 1) == input) {
+                return true;
             }
         }
-        System.out.println("numberLetterCorrect: " + numberLetterCorrect);
-        System.out.println(numberLetterCorrect / lengthOfWord);
-        return numberLetterCorrect / (double) lengthOfWord;
+        error++;
+        return false;
+    }
+
+    int getStudyOutcome() {
+        if (char2 == 6 || char1 == 6) {
+            return (int) (20 * getCorrectness() / 100);
+        } else if (char1 == 7 || char2 == 7) {
+            return (int) (30 * getCorrectness() / 100);
+        } else {
+            return (int) (25 * getCorrectness() / 100);
+        }
     }
 
     int getVitalityConsume() {
         return vitalityConsume;
+    }
+
+    int getMoodConsume() {
+        return moodConsume;
     }
 }
